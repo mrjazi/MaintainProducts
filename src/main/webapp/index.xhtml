@@ -6,16 +6,15 @@
       xmlns:p="primefaces">
 <style>
     .maintainProducts {
-        color: #0b0bb6;
+        color: #033270;
         font-weight: bolder;
         font-family: "Arial Black";
         padding: 10px;
     }
 
     .card {
-        border: dashed cadetblue;
+        border: solid #ced0da;
         margin: 20px;
-        border-radius: 10px;
         padding: 10px;
         display: flex;
         justify-content: space-between;
@@ -39,8 +38,17 @@
         display: flex;
         right: 0;
         bottom: 0;
+        margin-bottom: 40px;
+        color: #080d10;
     }
 
+    .table {
+    padding: 20px;
+    }
+
+    body .ui-button {
+        color: #1368aa;
+    }
 
 </style>
 <h:head>
@@ -115,19 +123,58 @@
             </h:panelGrid>
             <div class="rightButton">
                 <p:commandButton value="Add product    " styleClass="mr-2" icon="pi pi-plus"
-                                 iconPos="right" actionListener="#{crud.add()}" update=":dialogs:manage-product-content"
-                                 oncomplete="PF('manageProductDialog').show()">
-
-                    <p:resetInput target=":dialogs:manage-product-content"/>
-
+                                 iconPos="right" actionListener="#{crud.add()}">
                 </p:commandButton>
-
 
 
             </div>
             <p:growl id="messages"/>
 
         </h:form>
+
+
+    </div>
+
+
+    <div class="table">
+
+        <p:dataTable id="data-table-products" widgetVar="dataTableProducts" var="product" value="#{crud.products}"
+                     reflow="true" styleClass="products-table" selection="#{crud.selectedProducts}"
+                     rowKey="#{product.productId}" paginator="true" rows="10" selectionRowMode="add"
+                     paginatorPosition="bottom">
+            <f:facet name="header">
+                <div class="products-table-header">
+                    <span style="font-weight: bold">PRODUCTS</span>
+
+                </div>
+            </f:facet>
+
+            <p:column headerText="ID" sortBy="#{product.productId}">
+                <h:outputText value="#{product.productId}"/>
+            </p:column>
+            <p:column headerText="Name" sortBy="#{product.productName}">
+                <h:outputText value="#{product.productName}"/>
+            </p:column>
+            <p:column headerText="Countery" exportable="false" sortBy="#{product.productCountry}">
+                <h:outputText name="#{product.productCountry}"/>
+            </p:column>
+            <p:column headerText="Price" sortBy="#{product.productAmount}">
+                <h:outputText value="#{product.productAmount}" style="font-weight: 700">
+                    <f:convertNumber currencySymbol=" JOD" type="currency"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Category" sortBy="#{product.productCategory}">
+                <h:outputText value="#{product.productCategory}"/>
+            </p:column>
+            <p:column headerText="Quantity" sortBy="#{product.quantity}">
+                <p:rating value="#{product.quantity}" readonly="true"/>
+            </p:column>
+            <p:column headerText="Type" sortBy="#{product.productType}">
+            </p:column>
+
+
+        </p:dataTable>
+
     </div>
 
 
