@@ -2,8 +2,11 @@ package org.primefaces.test;
 
 
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import lombok.Data;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -14,7 +17,7 @@ import java.util.List;
 
 @Named
 @ViewScoped
-@Getter
+@Data
 public class Product implements Serializable {
 
     private int productId;
@@ -22,10 +25,12 @@ public class Product implements Serializable {
     private BigDecimal productAmount;
     private Date productDate;
     private List<String> productType;
+    private String type;
     private int quantity;
     private List<String> productCountry;
-
+    private String country;
     private List<String> productCategory;
+    private String category;
     private String productDescription;
 
 
@@ -54,7 +59,6 @@ public class Product implements Serializable {
         productCategory.add("Food");
 
 
-
         productType = new ArrayList<String>();
         productType.add("New");
         productType.add("Old");
@@ -62,22 +66,40 @@ public class Product implements Serializable {
 
     }
 
-    public Product(int productId, String productName, BigDecimal productAmount, Date productDate, List<String> productType, int quantity, List<String> productCountry, List<String> productCategory, String productDescription) {
+    public Product(int productId, String productName, BigDecimal productAmount, Date productDate, String type, int quantity, String country, String category, String productDescription) {
         this.productId = productId;
         this.productName = productName;
         this.productAmount = productAmount;
         this.productDate = productDate;
-        this.productType = productType;
+        this.type = type;
         this.quantity = quantity;
-        this.productCountry = productCountry;
-        this.productCategory = productCategory;
+        this.country = country;
+        this.category = category;
         this.productDescription = productDescription;
     }
+
+//    @Override
+//    public Product clone() {
+//        return new Product(getProductId(), getProductName(), getProductAmount(), getProductDate(), getProductType(), getQuantity(), getProductCountry(), getProductCategory(), getProductDescription());
+//    }
+
 
 //    public void onCountryChange() {
 //        if (productCountry != null && !productCountry.isEmpty()) {
 //            countryPick = productCountry;
 //        }
 //    }
+
+    public void displayLocation() {
+        FacesMessage msg;
+        if (category != null && country != null) {
+            msg = new FacesMessage("Selected", category + " of " + country);
+        }
+        else {
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid", "City is not selected.");
+        }
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
 }

@@ -46,8 +46,20 @@
     padding: 20px;
     }
 
-    body .ui-button {
+     .ui-button {
         color: #1368aa;
+    }
+    .custom-radio {
+        border: 2px dashed #9747ff;
+        padding: 10px;
+        display: inline-block;
+        width: 240px;
+        border-radius: 5px;
+    }
+
+    .custom-radio .ui-radiobutton-box.ui-state-active {
+        background-color: orange !important;
+        border-color: orange !important;
     }
 
 </style>
@@ -61,53 +73,41 @@
     <h2 class="maintainProducts">Maintain Products</h2>
 
     <div class="card">
-        <h:form class="manage-product-content">
+        <h:form id="form" class="manage-product-content">
+            <p:growl id="msgs" showDetail="true"/>
 
             <h:panelGrid columns="2" cellpadding="10">
-                <p:outputLabel for="productId" value="Product ID  "/>
-                <p:inputNumber id="productId" value="#{product.productId}" required="true"/>
+                <p:outputLabel for="productId" value="Product ID"/>
+                <p:inputText id="productId" value="#{product.productId}"/>
 
-
-                <p:outputLabel for="productName" value="Product Name  "/>
+                <p:outputLabel for="productName" value="Product Name"/>
                 <p:inputText id="productName" value="#{product.productName}" required="true"/>
 
-
-                <p:outputLabel for="input2" value="Currency"/>
+                <p:outputLabel for="input2" value="Price"/>
                 <p:inputNumber id="input2" value="#{product.productAmount}" symbol=" JOD"
                                symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
 
-
                 <p:outputLabel for="country" value="Country"/>
-                <p:selectOneMenu id="country" value="#{product.productCountry}" style="width:200px">
-
+                <p:selectOneMenu id="country" value="#{product.country}" style="width:200px">
                     <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{product.productCountry}"/>
+                    <f:selectItems value="#{product.productCountry}" var="c" itemLabel="#{c}" itemValue="#{c}"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel for="category" value="Category"/>
-                <p:selectOneMenu id="category" value="#{product.productCategory}" style="width:200px">
-
-                    <f:selectItem itemLabel="Select category" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{product.productCategory}"/>
+                <p:selectOneMenu id="category" value="#{product.category}" style="width:200px">
+                    <f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true"/>
+                    <f:selectItems value="#{product.productCategory}" var="cat" itemLabel="#{cat}" itemValue="#{cat}"/>
                 </p:selectOneMenu>
 
-                <p:outputLabel for="quantity" value="quantity"/>
+
+                <p:outputLabel for="quantity" value="Quantity"/>
                 <p:inputNumber id="quantity" value="#{product.quantity}" required="true"/>
 
-
                 <p:outputLabel for="type" value="Type"/>
-
-                <p:selectOneRadio styleClass="border-solid" id="type" value="#{product.productType}"
-                                  layout="lineDirection">
-                    <div class="radio">
-                        <f:selectItem itemLabel="#{product.productType.get(0)}"
-                                      itemValue="#{product.productType.get(0)}"/>
-                        <f:selectItem itemLabel="#{product.productType.get(1)}"
-                                      itemValue="#{product.productType.get(1)}"/>
-                    </div>
-
+                <p:selectOneRadio id="type" value="#{product.type}" layout="lineDirection">
+                    <f:selectItem itemLabel="New" itemValue="New"/>
+                    <f:selectItem itemLabel="Old" itemValue="Old"/>
                 </p:selectOneRadio>
-
 
             </h:panelGrid>
 
@@ -122,61 +122,42 @@
                 </span>
             </h:panelGrid>
             <div class="rightButton">
-                <p:commandButton value="Add product    " styleClass="mr-2" icon="pi pi-plus"
-                                 iconPos="right" actionListener="#{crud.add()}">
-                </p:commandButton>
-
-
+                <p:commandButton value="Add Product" styleClass="mr-2" icon="pi pi-plus"
+                                 action="#{crud.addProduct()}" update="data-table-products msgs"/>
             </div>
-            <p:growl id="messages"/>
 
         </h:form>
-
-
     </div>
 
-
     <div class="table">
-
         <p:dataTable id="data-table-products" widgetVar="dataTableProducts" var="product" value="#{crud.products}"
-                     reflow="true" styleClass="products-table" selection="#{crud.selectedProducts}"
-                     rowKey="#{product.productId}" paginator="true" rows="10" selectionRowMode="add"
-                     paginatorPosition="bottom">
-            <f:facet name="header">
-                <div class="products-table-header">
-                    <span style="font-weight: bold">PRODUCTS</span>
-
-                </div>
-            </f:facet>
-
-            <p:column headerText="ID" sortBy="#{product.productId}">
+                     rowKey="#{product.productId}" paginator="true" rows="10">
+            <p:column headerText="ID">
                 <h:outputText value="#{product.productId}"/>
             </p:column>
-            <p:column headerText="Name" sortBy="#{product.productName}">
+            <p:column headerText="Name">
                 <h:outputText value="#{product.productName}"/>
             </p:column>
-            <p:column headerText="Countery" exportable="false" sortBy="#{product.productCountry}">
-                <h:outputText name="#{product.productCountry}"/>
+            <p:column headerText="Country">
+                <h:outputText value="#{product.country}"/>
             </p:column>
-            <p:column headerText="Price" sortBy="#{product.productAmount}">
-                <h:outputText value="#{product.productAmount}" style="font-weight: 700">
+            <p:column headerText="Price">
+                <h:outputText value="#{product.productAmount}">
                     <f:convertNumber currencySymbol=" JOD" type="currency"/>
                 </h:outputText>
             </p:column>
-            <p:column headerText="Category" sortBy="#{product.productCategory}">
-                <h:outputText value="#{product.productCategory}"/>
+            <p:column headerText="Category">
+                <h:outputText value="#{product.category}"/>
             </p:column>
-            <p:column headerText="Quantity" sortBy="#{product.quantity}">
-                <p:rating value="#{product.quantity}" readonly="true"/>
+            <p:column headerText="Quantity">
+                <h:outputText value="#{product.quantity}"/>
             </p:column>
-            <p:column headerText="Type" sortBy="#{product.productType}">
+            <p:column headerText="Type">
+                <h:outputText value="#{product.type}"/>
             </p:column>
-
-
         </p:dataTable>
-
     </div>
 
-
 </h:body>
+
 </html>
