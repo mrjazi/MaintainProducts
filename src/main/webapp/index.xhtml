@@ -19,7 +19,6 @@
         display: flex;
         justify-content: space-between;
         flex-direction: column;
-
     }
 
     .ui-inputfield {
@@ -43,12 +42,13 @@
     }
 
     .table {
-    padding: 20px;
+        padding: 20px;
     }
 
-     .ui-button {
+    .ui-button {
         color: #1368aa;
     }
+
     .custom-radio {
         border: 2px dashed #9747ff;
         padding: 10px;
@@ -61,7 +61,6 @@
         background-color: orange !important;
         border-color: orange !important;
     }
-
 </style>
 <h:head>
     <title>Maintain Products</title>
@@ -69,7 +68,6 @@
     <h:outputStylesheet name="index.css"/>
 </h:head>
 <h:body>
-
     <h2 class="maintainProducts">Maintain Products</h2>
 
     <div class="card">
@@ -78,37 +76,36 @@
 
             <h:panelGrid columns="2" cellpadding="10">
                 <p:outputLabel for="productId" value="Product ID"/>
-                <p:inputText id="productId" value="#{product.productId}"/>
+                <p:inputText id="productId" value="#{crud.selectedProduct.productId}" />
 
                 <p:outputLabel for="productName" value="Product Name"/>
-                <p:inputText id="productName" value="#{product.productName}" required="true"/>
+                <p:inputText id="productName" value="#{crud.selectedProduct.productName}" required="true"/>
 
                 <p:outputLabel for="input2" value="Price"/>
-                <p:inputNumber id="input2" value="#{product.productAmount}" symbol=" JOD"
+                <p:inputNumber id="input2" value="#{crud.selectedProduct.productAmount}" symbol=" JOD"
                                symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
 
                 <p:outputLabel for="country" value="Country"/>
-                <p:selectOneMenu id="country" value="#{product.country}" style="width:200px">
+                <p:selectOneMenu id="country" value="#{crud.selectedProduct.country}" style="width:200px">
                     <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{product.productCountry}" var="c" itemLabel="#{c}" itemValue="#{c}"/>
+                    <f:selectItems value="#{crud.countries}" var="c" itemLabel="#{c}" itemValue="#{c}"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel for="category" value="Category"/>
-                <p:selectOneMenu id="category" value="#{product.category}" style="width:200px">
+                <p:selectOneMenu id="category" value="#{crud.selectedProduct.category}" style="width:200px">
                     <f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{product.productCategory}" var="cat" itemLabel="#{cat}" itemValue="#{cat}"/>
+                    <f:selectItems value="#{crud.categories}" var="cat" itemLabel="#{cat}" itemValue="#{cat}"/>
                 </p:selectOneMenu>
 
-
                 <p:outputLabel for="quantity" value="Quantity"/>
-                <p:inputNumber id="quantity" value="#{product.quantity}" required="true"/>
+                <p:inputNumber id="quantity" value="#{crud.selectedProduct.quantity}" required="true"/>
 
                 <p:outputLabel for="type" value="Type"/>
-                <p:selectOneRadio id="type" value="#{product.type}" layout="lineDirection">
+                <p:selectOneRadio styleClass="custom-radio" id="type" value="#{crud.selectedProduct.type}"
+                                  layout="lineDirection">
                     <f:selectItem itemLabel="New" itemValue="New"/>
                     <f:selectItem itemLabel="Old" itemValue="Old"/>
                 </p:selectOneRadio>
-
             </h:panelGrid>
 
             <h:panelGrid columns="1">
@@ -116,48 +113,47 @@
                 <p:outputLabel value="Description"/>
                 <p:panel>
                     <p:outputLabel for="productDescription" value="Product description"/>
-                    <p:inputTextarea id="productDescription" value="#{product.productDescription}" rows="5"
+                    <p:inputTextarea id="productDescription" value="#{crud.selectedProduct.productDescription}" rows="5"
                                      style="width: 100%; margin-top: 5px; resize: none;" autoResize="true"/>
                 </p:panel>
                 </span>
             </h:panelGrid>
             <div class="rightButton">
                 <p:commandButton value="Add Product" styleClass="mr-2" icon="pi pi-plus"
-                                 action="#{crud.addProduct()}" update="data-table-products msgs"/>
+                                 action="#{crud.addProduct()}" update="@form"/>
             </div>
 
+            <div class="table">
+                <p:dataTable id="data-table-products" var="productVar" value="#{crud.products}"
+                             paginator="true" rows="10">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{productVar.productId}"/>
+                    </p:column>
+                    <p:column headerText="Name">
+                        <h:outputText value="#{productVar.productName}"/>
+                    </p:column>
+                    <p:column headerText="Country">
+                        <h:outputText value="#{productVar.country}"/>
+                    </p:column>
+                    <p:column headerText="Price">
+                        <h:outputText value="#{productVar.productAmount}">
+                            <f:convertNumber currencySymbol=" JOD" type="currency"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Category">
+                        <h:outputText value="#{productVar.category}"/>
+                    </p:column>
+                    <p:column headerText="Quantity">
+                        <h:outputText value="#{productVar.quantity}"/>
+                    </p:column>
+                    <p:column headerText="Type">
+                        <h:outputText value="#{productVar.type}"/>
+                    </p:column>
+                </p:dataTable>
+            </div>
         </h:form>
     </div>
 
-    <div class="table">
-        <p:dataTable id="data-table-products" widgetVar="dataTableProducts" var="product" value="#{crud.products}"
-                     rowKey="#{product.productId}" paginator="true" rows="10">
-            <p:column headerText="ID">
-                <h:outputText value="#{product.productId}"/>
-            </p:column>
-            <p:column headerText="Name">
-                <h:outputText value="#{product.productName}"/>
-            </p:column>
-            <p:column headerText="Country">
-                <h:outputText value="#{product.country}"/>
-            </p:column>
-            <p:column headerText="Price">
-                <h:outputText value="#{product.productAmount}">
-                    <f:convertNumber currencySymbol=" JOD" type="currency"/>
-                </h:outputText>
-            </p:column>
-            <p:column headerText="Category">
-                <h:outputText value="#{product.category}"/>
-            </p:column>
-            <p:column headerText="Quantity">
-                <h:outputText value="#{product.quantity}"/>
-            </p:column>
-            <p:column headerText="Type">
-                <h:outputText value="#{product.type}"/>
-            </p:column>
-        </p:dataTable>
-    </div>
 
 </h:body>
-
 </html>
