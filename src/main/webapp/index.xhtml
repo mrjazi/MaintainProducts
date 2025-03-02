@@ -85,6 +85,10 @@
                 <p:inputNumber id="input2" value="#{crud.selectedProduct.productAmount}" symbol=" JOD"
                                symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
 
+                <p:outputLabel for="date" value="Date *"/>
+                <p:calendar id="date" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy" navigator="true"  />
+
+
                 <p:outputLabel for="country" value="Country"/>
                 <p:selectOneMenu id="country" value="#{crud.selectedProduct.country}" style="width:200px">
                     <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true"/>
@@ -139,6 +143,10 @@
                         <h:outputText value="#{productVar.productAmount}">
                             <f:convertNumber currencySymbol=" JOD" type="currency"/>
                         </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Date">
+                        <h:outputText value="#{productVar.productDate}"/>
                     </p:column>
                     <p:column headerText="Category">
                         <h:outputText value="#{productVar.category}"/>

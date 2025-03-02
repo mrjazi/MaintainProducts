@@ -11,7 +11,10 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Arrays;
 
@@ -19,12 +22,11 @@ import java.util.Arrays;
 @Named
 @ViewScoped
 @Data
-
 public class Crud implements Serializable {
 
     private List<Product> products;
-    @Setter
     private Product selectedProduct;
+
     private List<String> countries;
     private List<String> categories;
 
@@ -32,28 +34,38 @@ public class Crud implements Serializable {
     public void init() {
         products = new ArrayList<>();
         selectedProduct = new Product();
-        countries = Arrays.asList("USA", "Canada", "Germany", "France", "Jordan");
+
+
+        countries = Arrays.asList("USA", "Canada", "Germany", "Jordan");
         categories = Arrays.asList("Electronics", "Clothing", "Books");
-        products.add(new Product(
-                "123456789",
-                "Book",
-                new BigDecimal("19.99"),
-                "uuu",
-                "New",
-                2,
-                "Jo",
-                "Books",
-                "A great book."
-        ));
     }
 
     public void addProduct() {
         if (selectedProduct != null) {
+//            for (Product product : products) {
+//                if (product.equals(selectedProduct.getProductId())) {
+//                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Product with the same ID already exists."));
+//                    return;
+//                }
+//            }
 
             if (products.stream().anyMatch(i -> i.getProductId().equals(selectedProduct.getProductId()))) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Product with the same ID already exists."));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Product with this ID already exists."));
                 return;
             }
+
+            DateTimeFormatter formatPattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate today = selectedProduct.getProductDate();
+            String formatDate = today.format(formatPattern);
+//            LocalDate
+//                    .parse( "2022-05-12" )
+//                    .format(
+//                            DateTimeFormatter.ofPattern( "dd-MM-uuuu" )
+//                    )
+            selectedProduct.setProductDate(LocalDate.parse(today.format(formatPattern), formatPattern));
+
+
+            System.out.println("---------------->>>>>>>> "+selectedProduct.getProductDate());
 
             products.add(selectedProduct.clone());
 

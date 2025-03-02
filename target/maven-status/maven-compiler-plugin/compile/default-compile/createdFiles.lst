@@ -1,4 +1,4 @@
-org\primefaces\test\PrimeFacesTestApplicationConfig.class
-org\primefaces\test\Product.class
-org\primefaces\test\Crud.class
-org\primefaces\test\ProductType.class
+org/primefaces/test/Crud.class
+org/primefaces/test/PrimeFacesTestApplicationConfig.class
+org/primefaces/test/Product.class
+org/primefaces/test/ProductType.class

@@ -11,6 +11,8 @@ import lombok.Getter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Named
 @ViewScoped
@@ -20,13 +22,10 @@ public class Product implements Serializable {
     private String productId;
     private String productName;
     private BigDecimal productAmount;
-    private String productDate;
-
+    private LocalDate productDate;
     private String type;
     private int quantity;
-
     private String country;
-
     private String category;
     private String productDescription;
 
@@ -39,7 +38,7 @@ public class Product implements Serializable {
 
     }
 
-    public Product(String productId, String productName, BigDecimal productAmount, String productDate, String type, int quantity, String country, String category, String productDescription) {
+    public Product(String productId, String productName, BigDecimal productAmount, LocalDate productDate, String type, int quantity, String country, String category, String productDescription) {
         this.productId = productId;
         this.productName = productName;
         this.productAmount = productAmount;
@@ -55,13 +54,6 @@ public class Product implements Serializable {
     public Product clone() {
         return new Product(getProductId(), getProductName(), getProductAmount(), getProductDate(), getType(), getQuantity(), getCountry(), getCategory(), getProductDescription());
     }
-
-
-//    public void onCountryChange() {
-//        if (productCountry != null && !productCountry.isEmpty()) {
-//            countryPick = productCountry;
-//        }
-//    }
 
 
 
