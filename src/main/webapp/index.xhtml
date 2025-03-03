@@ -6,7 +6,7 @@
       xmlns:p="primefaces">
 <style>
     .maintainProducts {
-        color: #033270;
+        color: #1368aa;
         font-weight: bolder;
         font-family: "Arial Black";
         padding: 10px;
@@ -14,11 +14,8 @@
 
     .card {
         border: solid #ced0da;
+        padding: 30px;
         margin: 20px;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
     }
 
     .ui-inputfield {
@@ -38,7 +35,15 @@
         right: 0;
         bottom: 0;
         margin-bottom: 40px;
-        color: #080d10;
+        color: #1368aa;
+    }
+
+    .clearFilter {
+        justify-content: flex-end;
+        display: flex;
+        right: 0;
+        bottom: 0;
+        color: #1368aa;
     }
 
     .table {
@@ -51,9 +56,8 @@
 
     .custom-radio {
         border: 2px dashed #9747ff;
-        padding: 10px;
         display: inline-block;
-        width: 240px;
+        width: 200px;
         border-radius: 5px;
     }
 
@@ -61,6 +65,15 @@
         background-color: orange !important;
         border-color: orange !important;
     }
+
+    .mr-2 {
+        color: #1368aa;
+    }
+
+    .ui-selectoneradio.layout-line-direction > div, .ui-selectoneradio.layout-line-direction > div label {
+        padding: 10px;
+    }
+
 </style>
 <h:head>
     <title>Maintain Products</title>
@@ -70,23 +83,24 @@
 <h:body>
     <h2 class="maintainProducts">Maintain Products</h2>
 
-    <div class="card">
-        <h:form id="form" class="manage-product-content">
-            <p:growl id="msgs" showDetail="true"/>
 
+    <h:form id="form">
+        <p:growl id="msgs" showDetail="true"/>
+        <div class="card">
             <h:panelGrid columns="2" cellpadding="10">
                 <p:outputLabel for="productId" value="Product ID"/>
-                <p:inputText id="productId" value="#{crud.selectedProduct.productId}" />
+                <p:inputText id="productId" value="#{crud.selectedProduct.productId}" required="true"/>
 
                 <p:outputLabel for="productName" value="Product Name"/>
                 <p:inputText id="productName" value="#{crud.selectedProduct.productName}" required="true"/>
 
-                <p:outputLabel for="input2" value="Price"/>
+                <p:outputLabel for="input2" value="Amount"/>
                 <p:inputNumber id="input2" value="#{crud.selectedProduct.productAmount}" symbol=" JOD"
                                symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
 
                 <p:outputLabel for="date" value="Date *"/>
-                <p:calendar id="date" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy" navigator="true"  />
+                <p:calendar id="date" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy"
+                            navigator="true"/>
 
 
                 <p:outputLabel for="country" value="Country"/>
@@ -102,7 +116,7 @@
                 </p:selectOneMenu>
 
                 <p:outputLabel for="quantity" value="Quantity"/>
-                <p:inputNumber id="quantity" value="#{crud.selectedProduct.quantity}" required="true"/>
+                <p:inputNumber id="quantity" value="#{crud.selectedProduct.quantity}"/>
 
                 <p:outputLabel for="type" value="Type"/>
                 <p:selectOneRadio styleClass="custom-radio" id="type" value="#{crud.selectedProduct.type}"
@@ -123,45 +137,208 @@
                 </span>
             </h:panelGrid>
             <div class="rightButton">
-                <p:commandButton value="Add Product" styleClass="mr-2" icon="pi pi-plus"
-                                 action="#{crud.addProduct()}" update="@form"/>
+                <p:commandButton value="Add Product" styleClass="mr-2" icon="pi pi-plus" iconPos="right"
+                                 action="#{crud.addProduct()}" update="@form"
+                                 style="background-color: #1368aa; border-color: #1368aa; border-radius: 7px;"/>
             </div>
+        </div>
 
-            <div class="table">
-                <p:dataTable id="data-table-products" var="productVar" value="#{crud.products}"
-                             paginator="true" rows="10">
-                    <p:column headerText="ID">
-                        <h:outputText value="#{productVar.productId}"/>
-                    </p:column>
-                    <p:column headerText="Name">
-                        <h:outputText value="#{productVar.productName}"/>
-                    </p:column>
-                    <p:column headerText="Country">
-                        <h:outputText value="#{productVar.country}"/>
-                    </p:column>
-                    <p:column headerText="Price">
-                        <h:outputText value="#{productVar.productAmount}">
-                            <f:convertNumber currencySymbol=" JOD" type="currency"/>
-                        </h:outputText>
-                    </p:column>
+        <div class="table">
+            <p:dataTable id="data-table-products" var="productVar" value="#{crud.products}"
+                         paginator="true" rows="5" allowUnsorting="true" sortMode="single" paginatorPosition="bottom">
 
-                    <p:column headerText="Date">
-                        <h:outputText value="#{productVar.productDate}"/>
-                    </p:column>
-                    <p:column headerText="Category">
-                        <h:outputText value="#{productVar.category}"/>
-                    </p:column>
-                    <p:column headerText="Quantity">
-                        <h:outputText value="#{productVar.quantity}"/>
-                    </p:column>
-                    <p:column headerText="Type">
-                        <h:outputText value="#{productVar.type}"/>
-                    </p:column>
-                </p:dataTable>
-            </div>
-        </h:form>
-    </div>
+                <f:facet name="header">
+                    <div class="clearFilter" style="color: aqua">
+                        <div>
+                            <p:commandButton value="Clear filter" process="@this"
+                                             style="background-color: white; border-color: #1368aa; border-radius: 7px; color: #1368aa"
+                                             icon="pi pi-filter-slash" iconPos="right"
+                            />
 
+
+                        </div>
+                    </div>
+
+                </f:facet>
+                <p:column headerText="Product ID" sortBy="#{productVar.productId}">
+                    <h:outputText value="#{productVar.productId}"/>
+                </p:column>
+
+                <p:column headerText="Amount">
+                    <h:outputText value="#{productVar.productAmount}">
+                        <f:convertNumber currencySymbol=" JOD" type="currency"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Product Name">
+                    <h:outputText value="#{productVar.productName}"/>
+                </p:column>
+                <p:column headerText="Country">
+                    <h:outputText value="#{productVar.country}"/>
+                </p:column>
+                <p:column headerText="Product Type">
+                    <h:outputText value="#{productVar.type}"/>
+                </p:column>
+                <p:column headerText="Category">
+                    <h:outputText value="#{productVar.category}"/>
+                </p:column>
+
+
+                <p:column headerText="Quantity">
+                    <h:outputText value="#{productVar.quantity}"/>
+                </p:column>
+                <p:column headerText="Date">
+                    <h:outputText value="#{productVar.productDate}"/>
+                </p:column>
+
+                <p:column style="width: 75px; text-align: center">
+                    <p:splitButton icon="pi pi-info-circle" styleClass="ui-button-info ui-button-flat">
+                        <p:menuitem value="Actions" disabled="true"/>
+                        <p:divider/>
+                        <p:menuitem value="Edit" icon="pi pi-pencil" process="@this"
+                                    update=":dialogs:manage-product-content"
+                                    oncomplete="PF('manageProductDialog').show()">
+                            <f:setPropertyActionListener value="#{productVar}" target="#{crud.selectedProduct}"/>
+                            <p:resetInput target=":dialogs:manage-product-content"/>
+                        </p:menuitem>
+
+                        <p:menuitem value="Delete" icon="pi pi-trash"
+                                    process="@this"
+                                    oncomplete="PF('deleteProductDialog').show()">
+                            <f:setPropertyActionListener value="#{productVar}" target="#{crud.selectedProduct}"/>
+                        </p:menuitem>
+
+
+                        <p:menuitem value="View" icon="pi pi-eye"
+                                    process="@this"
+                                    update=":dialogs:view-product-content"
+                                    oncomplete="PF('viewProductDialog').show()">
+                            <f:setPropertyActionListener value="#{productVar}" target="#{crud.selectedProduct}"/>
+                        </p:menuitem>
+
+                    </p:splitButton>
+                </p:column>
+            </p:dataTable>
+        </div>
+
+
+        <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                         message="Delete the product?" header="Confirm" severity="warn">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{crud.deleteProduct}"
+                             process="@this" update="@this"
+                             oncomplete="PF('deleteProductDialog').hide()"/>
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                             onclick="PF('deleteProductDialog').hide()"/>
+        </p:confirmDialog>
+
+
+    </h:form>
+    <h:form id="dialogs">
+
+        <p:dialog header="Product Details" showEffect="fade" modal="true" widgetVar="manageProductDialog"
+                  responsive="true">
+
+            <p:outputPanel id="manage-product-content" class="ui-fluid">
+                <p:outputPanel rendered="#{not empty crud.selectedProduct}">
+
+                    <div class="field">
+                        <p:outputLabel for="updateName">Name</p:outputLabel>
+                        <p:inputText id="updateName" value="#{crud.selectedProduct.productName}" required="true"/>
+                    </div>
+                    <br/>
+
+                    <div class="field">
+                        <p:outputLabel for="updateId">ID</p:outputLabel>
+                        <p:inputTextarea id="updateId" value="#{crud.selectedProduct.productId}"/>
+                    </div>
+
+
+                    <br/>
+
+
+                    <div class="field">
+                        <p:outputLabel for="updateType">Type</p:outputLabel>
+                        <p:selectOneRadio styleClass="custom-radio" id="updateType" value="#{crud.selectedProduct.type}"
+                                          layout="lineDirection">
+                            <f:selectItem itemLabel="New" itemValue="New"/>
+                            <f:selectItem itemLabel="Old" itemValue="Old"/>
+                        </p:selectOneRadio>
+                    </div>
+
+
+                    <br/>
+                    <p:outputLabel for="updateDate" value="Date"/>
+                    <p:calendar id="updateDate" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy"
+                                navigator="true" required="true"/>
+                    <br/>
+                    <br/>
+
+                    <div class="formgrid grid">
+                        <div class="field col">
+                            <p:outputLabel for="UpdateAmount">Amount</p:outputLabel>
+                            <p:inputNumber id="UpdateAmount" value="#{crud.selectedProduct.productAmount}"
+                                           symbol=" JOD"
+                                           symbolPosition="s" decimalSeparator="." thousandSeparator=","/>
+                        </div>
+
+                    </div>
+                </p:outputPanel>
+            </p:outputPanel>
+
+            <f:facet name="footer">
+                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{crud.saveProduct()}"
+                                 update="manage-product-content" process="manage-product-content @this"/>
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProductDialog').hide()"
+                                 class="ui-button-secondary" type="button"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="View Product" showEffect="fade" modal="true" widgetVar="viewProductDialog"
+                  responsive="true">
+            <p:outputPanel id="view-product-content" class="ui-fluid">
+                <p:outputPanel rendered="#{not empty crud.selectedProduct}">
+                    <div class="field">
+                        <p:outputLabel for="viewName">Name</p:outputLabel>
+                        <p:inputText id="viewName" value="#{crud.selectedProduct.productName}" readonly="true"/>
+                    </div>
+                    <br/>
+
+                    <div class="field">
+                        <p:outputLabel for="viewId">ID</p:outputLabel>
+                        <p:inputTextarea id="viewId" value="#{crud.selectedProduct.productId}" readonly="true"/>
+                    </div>
+                    <br/>
+
+                    <div class="field">
+                        <p:outputLabel for="viewType">Type</p:outputLabel>
+                        <p:inputText id="viewType" value="#{crud.selectedProduct.type}" readonly="true"/>
+                    </div>
+                    <br/>
+
+                    <div class="field">
+                        <p:outputLabel for="viewDate">Date</p:outputLabel>
+                        <p:inputText id="viewDate" value="#{crud.selectedProduct.productDate}" readonly="true"/>
+                    </div>
+                    <br/>
+
+                    <div class="field">
+                        <p:outputLabel for="viewAmount">Amount</p:outputLabel>
+                        <p:inputText id="viewAmount" value="#{crud.selectedProduct.productAmount}" readonly="true"/>
+                    </div>
+                    <br/>
+
+                    <div class="field">
+                        <p:outputLabel for="viewDescription">Description</p:outputLabel>
+                        <p:inputTextarea id="viewDescription" value="#{crud.selectedProduct.productDescription}" readonly="true" rows="5" style="width: 100%; margin-top: 5px; resize: none;" autoResize="true"/>
+                    </div>
+                </p:outputPanel>
+            </p:outputPanel>
+
+            <f:facet name="footer">
+                <p:commandButton value="Close" icon="pi pi-times" onclick="PF('viewProductDialog').hide()"
+                                 class="ui-button-secondary" type="button"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
 
 </h:body>
 </html>
