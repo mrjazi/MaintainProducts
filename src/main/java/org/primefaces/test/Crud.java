@@ -56,6 +56,8 @@ public class Crud implements Serializable {
 
             if (products.stream().anyMatch(i -> i.getProductId().equals(selectedProduct.getProductId()))) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Product with this ID already exists."));
+                selectedProduct = new Product();
+                selectedProduct.init();
                 return;
             }
 
@@ -93,8 +95,11 @@ public class Crud implements Serializable {
             String formatDate = today.format(formatPattern);
 
             this.products.add(this.selectedProduct);
+
             this.products.remove(this.selectedProduct);
             this.selectedProducts.remove(this.selectedProduct);
+            selectedProduct = new Product();
+            selectedProduct.init();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Product saved successfully."));
 
             PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");

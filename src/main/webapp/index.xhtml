@@ -94,9 +94,11 @@
                 <p:outputLabel for="productName" value="Product Name"/>
                 <p:inputText id="productName" value="#{crud.selectedProduct.productName}" required="true"/>
 
+
                 <p:outputLabel for="input2" value="Amount"/>
                 <p:inputNumber id="input2" value="#{crud.selectedProduct.productAmount}" symbol=" JOD"
                                symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+
 
                 <p:outputLabel for="date" value="Date *"/>
                 <p:calendar id="date" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy"
@@ -168,6 +170,7 @@
                     <h:outputText value="#{productVar.productAmount}">
                         <f:convertNumber currencySymbol=" JOD" type="currency"/>
                     </h:outputText>
+
                 </p:column>
                 <p:column headerText="Product Name">
                     <h:outputText value="#{productVar.productName}"/>
@@ -294,44 +297,47 @@
 
         <p:dialog header="View Product" showEffect="fade" modal="true" widgetVar="viewProductDialog"
                   responsive="true">
-            <p:outputPanel id="view-product-content" class="ui-fluid">
-                <p:outputPanel rendered="#{not empty crud.selectedProduct}">
-                    <div class="field">
-                        <p:outputLabel for="viewName">Name</p:outputLabel>
-                        <p:inputText id="viewName" value="#{crud.selectedProduct.productName}" readonly="true"/>
-                    </div>
-                    <br/>
+            <h:panelGrid columns="3" cellpadding="7">
+                <p:outputPanel id="view-product-content" class="ui-fluid">
+                    <p:outputPanel rendered="#{not empty crud.selectedProduct}">
+                        <div class="field">
+                            <p:outputLabel for="viewName">Name</p:outputLabel>
+                            <p:inputText id="viewName" value="#{crud.selectedProduct.productName}" readonly="true"/>
+                        </div>
+                        <br/>
 
-                    <div class="field">
-                        <p:outputLabel for="viewId">ID</p:outputLabel>
-                        <p:inputTextarea id="viewId" value="#{crud.selectedProduct.productId}" readonly="true"/>
-                    </div>
-                    <br/>
+                        <div class="field">
+                            <p:outputLabel for="viewId">ID</p:outputLabel>
+                            <p:inputTextarea id="viewId" value="#{crud.selectedProduct.productId}" readonly="true"/>
+                        </div>
+                        <br/>
 
-                    <div class="field">
-                        <p:outputLabel for="viewType">Type</p:outputLabel>
-                        <p:inputText id="viewType" value="#{crud.selectedProduct.type}" readonly="true"/>
-                    </div>
-                    <br/>
+                        <div class="field">
+                            <p:outputLabel for="viewType">Type</p:outputLabel>
+                            <p:inputText id="viewType" value="#{crud.selectedProduct.type}" readonly="true"/>
+                        </div>
+                        <br/>
 
-                    <div class="field">
-                        <p:outputLabel for="viewDate">Date</p:outputLabel>
-                        <p:inputText id="viewDate" value="#{crud.selectedProduct.productDate}" readonly="true"/>
-                    </div>
-                    <br/>
+                        <div class="field">
+                            <p:outputLabel for="viewDate">Date</p:outputLabel>
+                            <p:inputText id="viewDate" value="#{crud.selectedProduct.productDate}" readonly="true" />
+                        </div>
+                        <br/>
 
-                    <div class="field">
-                        <p:outputLabel for="viewAmount">Amount</p:outputLabel>
-                        <p:inputText id="viewAmount" value="#{crud.selectedProduct.productAmount}" readonly="true"/>
-                    </div>
-                    <br/>
+                        <div class="field">
+                            <p:outputLabel for="viewAmount">Amount</p:outputLabel>
+                            <p:inputText id="viewAmount" value="#{crud.selectedProduct.productAmount}" readonly="true"/>
+                        </div>
+                        <br/>
 
-                    <div class="field">
-                        <p:outputLabel for="viewDescription">Description</p:outputLabel>
-                        <p:inputTextarea id="viewDescription" value="#{crud.selectedProduct.productDescription}" readonly="true" rows="5" style="width: 100%; margin-top: 5px; resize: none;" autoResize="true"/>
-                    </div>
+                        <div class="field">
+                            <p:outputLabel for="viewDescription">Description</p:outputLabel>
+                            <p:inputTextarea id="viewDescription" value="#{crud.selectedProduct.productDescription}" readonly="true" rows="5" style="width: 100%; margin-top: 5px; resize: none;" autoResize="true"/>
+                        </div>
+                    </p:outputPanel>
                 </p:outputPanel>
-            </p:outputPanel>
+
+            </h:panelGrid>
 
             <f:facet name="footer">
                 <p:commandButton value="Close" icon="pi pi-times" onclick="PF('viewProductDialog').hide()"
