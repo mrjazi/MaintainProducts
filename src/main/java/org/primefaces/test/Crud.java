@@ -7,15 +7,11 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.primefaces.PrimeFaces;
-
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Arrays;
 
@@ -61,15 +57,31 @@ public class Crud implements Serializable {
                 return;
             }
 
+//            DateTimeFormatter formatPattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//            LocalDate today = selectedProduct.getProductDate();
+//            String formatDate = today.format(formatPattern);
+////            LocalDate
+////                    .parse( "2022-05-12" )
+////                    .format(
+////                            DateTimeFormatter.ofPattern( "dd-MM-uuuu" )
+////                    )
+//            selectedProduct.setProductDate(LocalDate.parse(today.format(formatPattern), formatPattern));
+
+
+
             DateTimeFormatter formatPattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
             LocalDate today = selectedProduct.getProductDate();
+            System.out.println("Formatted Date before: " + selectedProduct.getProductDate());
+
             String formatDate = today.format(formatPattern);
-//            LocalDate
-//                    .parse( "2022-05-12" )
-//                    .format(
-//                            DateTimeFormatter.ofPattern( "dd-MM-uuuu" )
-//                    )
-            selectedProduct.setProductDate(LocalDate.parse(today.format(formatPattern), formatPattern));
+            System.out.println("Formatted Date: " + formatDate);
+
+            LocalDate parsedDate = LocalDate.parse(formatDate, formatPattern);
+
+            selectedProduct.setProductDate(parsedDate);
+
+            System.out.println("Formatted Date after: " + selectedProduct.getProductDate());
 
 
             System.out.println("---------------->>>>>>>> " + selectedProduct.getProductDate());

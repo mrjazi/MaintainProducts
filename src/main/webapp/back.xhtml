@@ -12,10 +12,15 @@
 </h:head>
 
 
-
 <style>
-
+    .jodSpan {
+        justify-content: flex-end;
+        display: flex;
+        right: 0;
+        bottom: 0;
+    }
 </style>
+
 <h:body>
     <h2 class="maintainProducts">Maintain Products</h2>
 
@@ -32,14 +37,16 @@
 
 
                 <p:outputLabel for="input2" value="Amount"/>
-                <p:inputNumber styleClass="amountC" id="input2" value="#{crud.selectedProduct.productAmount}" symbol=" JOD"
-                               symbolPosition="s" decimalSeparator="," thousandSeparator="." />
-
+                <p:inputNumber styleClass="amountC" id="input2" value="#{crud.selectedProduct.productAmount}"
+                               symbol=" JOD"
+                               symbolPosition="s" decimalSeparator="," thousandSeparator=".">
+                    <span class="jodSpan">JOD</span>
+                </p:inputNumber>
 
 
                 <p:outputLabel for="date" value="Date"/>
-                <p:datePicker id="date" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy"  showIcon="true"
-                            navigator="true" required="true"/>
+                <p:datePicker id="date" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy" showIcon="true"
+                              navigator="true" required="true"/>
 
 
                 <p:outputLabel for="country" value="Country"/>
@@ -81,17 +88,6 @@
                                  style="background-color: #1368aa; border-color: #1368aa; border-radius: 7px;"/>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
         <div class="table">
