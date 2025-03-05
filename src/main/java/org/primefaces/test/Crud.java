@@ -79,7 +79,7 @@ public class Crud implements Serializable {
 
             LocalDate parsedDate = LocalDate.parse(formatDate, formatPattern);
 
-            selectedProduct.setProductDate(parsedDate);
+            selectedProduct.setDate(formatDate);
 
             System.out.println("Formatted Date after: " + selectedProduct.getProductDate());
 
@@ -138,16 +138,27 @@ public class Crud implements Serializable {
 //    }
 
 
-    public String viewProduct(String productId) {
+    public String viewProduct() {
         this.productToView = new ArrayList<>();
 
         System.out.println("------------------------->>> " + selectedProduct);
 
         this.productToView.add(selectedProduct);
 
-        System.out.println("-----------product----------->>>>>>>>>>" + productToView);
+        System.out.println("-----------product to view----------->>>>>>>>>>" + productToView);
 
         return productToView.toString();
+    }
+
+    public void deleteAllProducts() {
+        System.out.println("deleteAllProducts");
+        System.out.println(products.size());
+
+        for (Product product : products) {
+            products.remove(product);
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Products cleared"));
+        PrimeFaces.current().ajax().update("form:msgs", "form:data-table-products");
     }
 
 

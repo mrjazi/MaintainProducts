@@ -95,6 +95,7 @@ body .ui-datatable .ui-datatable-header{
 body .ui-datatable .ui-datatable-data>tr>td:nth-child(9){
     background-color: #1368aa;
 }
+
 body .ui-splitbutton{
     /*background-color: #1368aa;*/
 
@@ -107,9 +108,6 @@ body .ui-splitbutton{
 .splitButton{
     background-color: #1368aa;
 }
-
-
-
 
 body .ui-datatable .ui-inputfield>tr>td:nth-child(3) {
     background-color: blue;

@@ -12,34 +12,83 @@
 </h:head>
 
 
-
 <style>
+    body .ui-calendar .ui-button.ui-button-icon-only {
+        margin-left: 5px;
+        color: #033270;
+        background-color: white;
+        border-color: white;
 
+    }
+
+    body .ui-inputgroup-addon {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: -39px;
+
+        background-color: #f5f5f5;
+        padding-top: 9px;
+        padding-bottom: 12px;
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .amountC .ui-inputnumber .ui-inputfield {
+        flex: 1;
+        background-color: #9dcee2;
+    }
+
+    body .ui-inputfield:nth-of-type(2) {
+        background-color: #1368aa;
+    }
+
+    form:input2_input {
+        background-color: #1368aa;
+    }
+
+    /*body .ui-datatable .ui-datatable-data > tr {*/
+    /*    background-color: #1368aa;*/
+    /*}*/
+
+
+    body .third-input .ui-inputfield {
+        background-color: #90cee7;
+    }
 </style>
+
+
 <h:body>
     <h2 class="maintainProducts">Maintain Products</h2>
 
 
     <h:form id="form">
         <p:growl id="msgs" showDetail="true"/>
+
+
         <div class="card">
+            <p:messages id="msgs2"/>
             <h:panelGrid columns="2" cellpadding="10">
                 <p:outputLabel for="productId" value="Product ID"/>
                 <p:inputText id="productId" value="#{crud.selectedProduct.productId}" required="true"/>
+
+
 
                 <p:outputLabel for="productName" value="Product Name"/>
                 <p:inputText id="productName" value="#{crud.selectedProduct.productName}" required="true"/>
 
 
-                <p:outputLabel for="input2" value="Amount"/>
-                <p:inputNumber styleClass="amountC" id="input2" value="#{crud.selectedProduct.productAmount}" symbol=" JOD"
-                               symbolPosition="s" decimalSeparator="," thousandSeparator="." />
+                <p:outputLabel for="input3" value="Amount"/>
 
+                <p:inputNumber styleClass="third-input" id="input3" value="#{crud.selectedProduct.productAmount}"
+                               symbol=" JOD"
+                               symbolPosition="s" decimalSeparator="," thousandSeparator="." showIcon="true">
+                    <div class="ui-inputgroup-addon">JOD</div>
+                </p:inputNumber>
 
 
                 <p:outputLabel for="date" value="Date"/>
-                <p:datePicker id="date" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy"  showIcon="true"
-                            navigator="true" required="true"/>
+                <p:datePicker id="date" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy" showIcon="true"
+                              navigator="true" required="true"/>
 
 
                 <p:outputLabel for="country" value="Country"/>
@@ -83,17 +132,6 @@
         </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
         <div class="table">
             <p:dataTable id="data-table-products" var="productVar" value="#{crud.products}"
                          paginator="true" rows="5" allowUnsorting="true" sortMode="single" paginatorPosition="bottom">
@@ -104,6 +142,7 @@
                             <p:commandButton value="Clear filter" process="@this"
                                              style="background-color: white; border-color: #1368aa; border-radius: 7px; color: #1368aa"
                                              icon="pi pi-filter-slash" iconPos="right"
+                                             action="#{crud.deleteAllProducts()}"
                             />
 
 
@@ -116,7 +155,7 @@
                 </p:column>
 
                 <p:column headerText="Amount" sortBy="#{productVar.productAmount}">
-                    <h:outputText value="#{productVar.productAmount}">
+                    <h:outputText  value="#{productVar.productAmount}">
                         <f:convertNumber currencySymbol=" JOD" type="currency"/>
                     </h:outputText>
 
@@ -141,8 +180,8 @@
                     <h:outputText value="#{productVar.quantity}"/>
                 </p:column>
 
-                <p:column headerText="Date" sortBy="#{productVar.productDate}">
-                    <h:outputText value="#{productVar.productDate}"/>
+                <p:column headerText="Date" sortBy="#{productVar.date}">
+                    <h:outputText value="#{productVar.date}"/>
                 </p:column>
 
                 <p:column style="text-align: center">
@@ -163,12 +202,12 @@
                         </p:menuitem>
 
 
-                        <p:menuitem value="View" icon="pi pi-eye"
-                                    process="@this"
-                                    update=":dialogs:view-product-content"
-                                    oncomplete="PF('viewProductDialog').show()">
+                        <p:menuitem value="View" icon="pi pi-eye" actionListener="#{crud.viewProduct}" onclick="window.open('http://localhost:8080/productView.xhtml')">
+
+                            <f:param name="productId" value="#{crud.selectedProduct.productId}"/>
                             <f:setPropertyActionListener value="#{productVar}" target="#{crud.selectedProduct}"/>
                         </p:menuitem>
+
 
                     </p:splitButton>
                 </p:column>

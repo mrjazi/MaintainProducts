@@ -24,6 +24,7 @@ public class Product implements Serializable {
     private BigDecimal productAmount;
     private LocalDate productDate;
     private String type;
+    private String date;
     private int quantity;
     private String country;
     private String category;
@@ -38,11 +39,11 @@ public class Product implements Serializable {
 
     }
 
-    public Product(String productId, String productName, BigDecimal productAmount, LocalDate productDate, String type, int quantity, String country, String category, String productDescription) {
+    public Product(String productId, String productName, BigDecimal productAmount, String date, String type, int quantity, String country, String category, String productDescription) {
         this.productId = productId;
         this.productName = productName;
         this.productAmount = productAmount;
-        this.productDate = productDate;
+        this.date = date;
         this.type = type;
         this.quantity = quantity;
         this.country = country;
@@ -52,7 +53,7 @@ public class Product implements Serializable {
 
     @Override
     public Product clone() {
-        return new Product(getProductId(), getProductName(), getProductAmount(), getProductDate(), getType(), getQuantity(), getCountry(), getCategory(), getProductDescription());
+        return new Product(getProductId(), getProductName(), getProductAmount(), getDate(), getType(), getQuantity(), getCountry(), getCategory(), getProductDescription());
     }
 
 
