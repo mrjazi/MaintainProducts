@@ -12,50 +12,27 @@
 <h:body>
    <h:form>
       <h2>Product Details</h2>
-      <div class="table">
-         <p:dataTable id="data-table-products" var="productVar" value="#{crud.productToView}"
-                      paginator="false" rows="5" allowUnsorting="true" sortMode="single" paginatorPosition="bottom">
 
 
-            <p:column headerText="Product ID" sortBy="#{productVar.productId}">
-               <h:outputText value="#{productVar.productId}"/>
-            </p:column>
+      <h:panelGrid columns="2">
+         <h:outputLabel value="Product ID:" />
+         <h:outputText value="#{param.productId}" />
 
-            <p:column headerText="Amount" sortBy="#{productVar.productAmount}">
-               <h:outputText value="#{productVar.productAmount}">
-                  <f:convertNumber currencySymbol=" JOD" type="currency"/>
-               </h:outputText>
+         <h:outputLabel value="Product Name:" />
+         <h:outputText value="#{param.productName}" />
 
-            </p:column>
-            <p:column headerText="Product Name" sortBy="#{productVar.productName}">
-               <h:outputText value="#{productVar.productName}"/>
-            </p:column>
+         <h:outputLabel value="Amount:" />
+         <h:outputText value="#{param.productAmount}" />
 
-            <p:column headerText="Country" sortBy="#{productVar.country}">
-               <h:outputText value="#{productVar.country}"/>
-            </p:column>
-            <p:column headerText="Product Type" sortBy="#{productVar.type}">
-               <h:outputText value="#{productVar.type}"/>
-            </p:column>
+         <h:outputLabel value="Date:" />
+         <h:outputText value="#{param.productDate}" />
 
-            <p:column headerText="Category" sortBy="#{productVar.category}">
-               <h:outputText value="#{productVar.category}"/>
-            </p:column>
+      </h:panelGrid>
+      <br/>   <br/>
+      <h:form>
+         <p:commandButton value="Back" action="index.xhtml" />
+      </h:form>
 
-
-            <p:column headerText="Quantity" sortBy="#{productVar.quantity}">
-               <h:outputText value="#{productVar.quantity}"/>
-            </p:column>
-
-            <p:column headerText="Date" sortBy="#{productVar.productDate}">
-               <h:outputText value="#{productVar.productDate}"/>
-            </p:column>
-
-
-         </p:dataTable>
-      </div>
-   <br/>
-      <p:commandButton value="Back" action="index.xhtml" />
    </h:form>
 </h:body>
 </html>
