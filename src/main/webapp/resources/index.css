@@ -70,10 +70,11 @@
     border-radius: 5px;
 }
 
-.custom-radio .ui-radiobutton-box.ui-state-active {
-    background-color: orange !important;
-    border-color: orange !important;
-}
+/*.custom-radio .ui-radiobutton-box.ui-state-active {*/
+/*    background-color: orange !important;*/
+/*    border-color: orange !important;*/
+/*}*/
+
 
 .mr-2 {
     color: #1368aa;
@@ -113,4 +114,12 @@ body .ui-datatable .ui-inputfield>tr>td:nth-child(3) {
     background-color: blue;
 }
 
+body .ui-datatable thead .buttons-class {
+   width: 80px !important;
 
+}
+
+
+body .ui-button.ui-button-icon-only .ui-button-text {
+    padding: 0;
+}

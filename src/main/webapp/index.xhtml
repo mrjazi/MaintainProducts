@@ -14,10 +14,10 @@
 
 <style>
     body .ui-calendar .ui-button.ui-button-icon-only {
-        margin-left: 5px;
+        margin-left: -50px;
         color: #033270;
         background-color: white;
-        padding-top: 10px;
+        margin-top: -9px;
         border-color: white;
 
     }
@@ -30,18 +30,19 @@
         display: flex;
         justify-content: flex-end;
         margin-bottom: -39px;
-        margin-right: 37px;
+        margin-left: 165px;
         background-color: #f5f5f5;
         padding-top: 9px;
         padding-bottom: 12px;
-        border-radius: 8px;
-        padding: 10px;
+        border-top-right-radius: 8px;
+        padding-right: 10px;
         font-family: sans-serif;
     }
 
     .amountC .ui-inputnumber .ui-inputfield {
         flex: 1;
         background-color: #9dcee2;
+
     }
 
     body .ui-inputfield:nth-of-type(2) {
@@ -60,7 +61,7 @@
     body .third-input .ui-inputfield {
         background-color: #90cee7;
         text-align: right;
-        width: 165px;
+        width: 245px;
     }
 
     /*body .ui-datatable .ui-datatable-data > tr > td{*/
@@ -87,12 +88,45 @@
     body .ui-splitbutton .ui-button.ui-splitbutton-menubutton {
         background-color: #1368aa;
         border-color: #1368aa;
+
     }
 
-    body .ui-datatable .ui-datatable-data>tr>td:nth-child(9){
+    body .ui-datatable .ui-datatable-data > tr > td:nth-child(9) {
         background-color: #1368aa;
-        width: 50px;
+        border-color: #1368aa;
+        width: 30px;
     }
+
+    body .ui-radiobutton .ui-radiobutton-box.ui-state-active .ui-icon-bullet {
+        background-color: orange;
+    }
+
+    body .ui-radiobutton .ui-radiobutton-box {
+        border-color: black;
+
+    }
+
+    body .ui-fieldset .ui-fieldset-legend {
+        background-color: white;
+        border-color: white;
+    }
+
+    body .grid {
+        display: grid;
+        grid-template-columns: 150px  minmax(200px, 300px)  auto;
+        grid-gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+
+    body .cal .ui-inputfield {
+        background-color: #90cee7;
+        text-align: right;
+        width: 275px;
+    }
+
+
 </style>
 
 
@@ -105,61 +139,129 @@
 
 
         <div class="card">
-            <p:messages id="msgs2"/>
-            <h:panelGrid columns="2" cellpadding="10">
-                <p:outputLabel for="productId" value="Product ID"/>
-                <p:inputText id="productId" value="#{crud.selectedProduct.productId}" required="true"/>
+
+            <div class="grid ui-fluid">
+                <div >
+                    <p:outputLabel for="productId" value="Product ID"/>
+                </div>
+                <div class="">
+
+                    <p:inputText id="productId" value="#{crud.selectedProduct.productId}" required="true"/>
+
+                </div>
+                <div class="">
+
+                    <p:message for="productId"/>
+                </div>
+            </div>
+
+            <div class="grid ui-fluid">
+                <div class="col-12 md:col-4">
+
+                    <p:outputLabel for="productName" value="Product Name"/>
+
+                </div>
+                <div class="col-12 md:col-4">
+
+                    <p:inputText id="productName" value="#{crud.selectedProduct.productName}" required="true"/>
+
+                </div>
+                <div class="col-12 md:col-4">
 
 
-                <p:outputLabel for="productName" value="Product Name"/>
-                <p:inputText id="productName" value="#{crud.selectedProduct.productName}" required="true"/>
+                    <p:message for="productName"/>
+                </div>
+            </div>
 
 
-                <p:outputLabel for="input3" value="Amount"/>
-
-                <p:inputNumber styleClass="third-input" id="input3" value="#{crud.selectedProduct.productAmount}"
-                               showIcon="true">
-                    <div class="ui-inputgroup-addon">JOD</div>
-                </p:inputNumber>
+            <div class="grid ui-fluid">
+                <div class="col-12 md:col-9">
+                    <p:outputLabel for="input3" value="Amount"/>
 
 
-                <p:outputLabel for="date" value="Date"/>
-                <p:datePicker id="date" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy" showIcon="true"
-                              navigator="true" required="true"/>
+                </div>
+                <div class="col-12 md:col-9">
 
+                    <p:inputNumber styleClass="third-input" id="input3" value="#{crud.selectedProduct.productAmount}"
+                                   showIcon="true">
+                        <div class="ui-inputgroup-addon">JOD</div>
+                    </p:inputNumber>
+                </div>
+            </div>
 
-                <p:outputLabel for="country" value="Country"/>
-                <p:selectOneMenu id="country" value="#{crud.selectedProduct.country}" style="width:200px">
-                    <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{crud.countries}" var="c" itemLabel="#{c}" itemValue="#{c}"/>
-                </p:selectOneMenu>
+            <div class="grid ui-fluid">
+                <div class="col-12 md:col-4">
+                    <p:outputLabel for="date" value="Date"/>
 
-                <p:outputLabel for="category" value="Category"/>
-                <p:selectOneMenu id="category" value="#{crud.selectedProduct.category}" style="width:200px">
-                    <f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{crud.categories}" var="cat" itemLabel="#{cat}" itemValue="#{cat}"/>
-                </p:selectOneMenu>
+                </div>
+                <div class="col-12 md:col-4">
 
-                <p:outputLabel for="quantity" value="Quantity"/>
-                <p:inputNumber id="quantity" value="#{crud.selectedProduct.quantity}"/>
+                    <p:datePicker id="date" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy"
+                                  showIcon="true"
+                                  navigator="true" required="true"/>
+                </div>
+                <div class="col-12 md:col-4">
+                    <p:message for="date"/>
+                </div>
+            </div>
 
-                <p:outputLabel for="type" value="Type"/>
-                <p:selectOneRadio styleClass="custom-radio" id="type" value="#{crud.selectedProduct.type}"
-                                  layout="lineDirection">
-                    <f:selectItem itemLabel="New" itemValue="New"/>
-                    <f:selectItem itemLabel="Old" itemValue="Old"/>
-                </p:selectOneRadio>
-            </h:panelGrid>
+            <div class="grid ui-fluid">
+                <div class="col-12 md:col-4">
+                    <p:outputLabel for="country" value="Country"/>
 
-            <h:panelGrid columns="1">
-                <span class="ui-float-label">
-                <p:outputLabel value="Description"/>
-                <p:panel>
-                    <p:outputLabel for="productDescription" value="Product description"/>
-                    <p:inputTextarea id="productDescription" value="#{crud.selectedProduct.productDescription}" rows="5"
-                                     style="width: 100%; margin-top: 5px; resize: none;" autoResize="true"/>
-                </p:panel>
-                </span>
+                </div>
+                <div class="col-12 md:col-4">
+                    <p:selectOneMenu id="country" value="#{crud.selectedProduct.country}">
+                        <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{crud.countries}" var="c" itemLabel="#{c}" itemValue="#{c}"/>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="grid ui-fluid">
+                <div class="col-12 md:col-4">
+                    <p:outputLabel for="category" value="Category"/>
+
+                </div>
+                <div class="col-12 md:col-4">
+                    <p:selectOneMenu id="category" value="#{crud.selectedProduct.category}">
+                        <f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{crud.categories}" var="cat" itemLabel="#{cat}" itemValue="#{cat}"/>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="grid ui-fluid">
+                <div class="col-12 md:col-4">
+                    <p:outputLabel for="quantity" value="Quantity"/>
+                </div>
+                <div class="col-12 md:col-4">
+                    <p:inputNumber id="quantity" value="#{crud.selectedProduct.quantity}"/>
+                </div>
+            </div>
+
+            <div class="grid ui-fluid">
+                <div class="col-12 md:col-4">
+                    <p:outputLabel for="type" value="Type"/>
+
+                </div>
+                <div class="col-12 md:col-4">
+                    <p:selectOneRadio styleClass="custom-radio" id="type" value="#{crud.selectedProduct.type}"
+                                      layout="lineDirection">
+                        <f:selectItem itemLabel="New" itemValue="New"/>
+                        <f:selectItem itemLabel="Old" itemValue="Old"/>
+                    </p:selectOneRadio>
+                </div>
+            </div>
+            <h:panelGrid columns="3" cellpadding="7">
+                <p:fieldset legend="Description">
+
+                    <p:inputTextarea id="productDescription" value="#{crud.selectedProduct.productDescription}"
+                                     autoResize="true" rows="5"
+                                     style="width: 290px;"
+                                     placeholder="product description"/>
+
+                </p:fieldset>
             </h:panelGrid>
             <div class="rightButton">
                 <p:commandButton value="Add Product" styleClass="mr-2" icon="pi pi-plus" iconPos="right"
@@ -221,7 +323,7 @@
                     <h:outputText value="#{productVar.date}"/>
                 </p:column>
 
-                <p:column style="text-align: center">
+                <p:column styleClass="buttons-class"  >
                     <p:splitButton icon="pi pi-info-circle" styleClass="ui-button-info ui-button-flat">
                         <p:menuitem value="Actions" disabled="true"/>
                         <p:divider/>
@@ -240,7 +342,7 @@
 
 
                         <p:menuitem value="View" icon="pi pi-eye"
-                                    outcome="productView.xhtml">
+                                    outcome="productView.xhtml" target="_blank">
                             <f:param name="productId" value="#{productVar.productId}"/>
                             <f:param name="productName" value="#{productVar.productName}"/>
                             <f:param name="productAmount" value="#{productVar.productAmount}"/>
@@ -302,7 +404,8 @@
 
                     <br/>
                     <p:outputLabel for="updateDate" value="Date"/>
-                    <p:calendar id="updateDate" value="#{crud.selectedProduct.productDate}" pattern="dd/MM/yyyy"
+                    <p:calendar styleClass="cal-input" id="updateDate" value="#{crud.selectedProduct.productDate}"
+                                pattern="dd/MM/yyyy"
                                 navigator="true" required="true"/>
                     <br/>
                     <br/>

@@ -13,13 +13,104 @@
 
 
 <style>
-    .jodSpan {
-        justify-content: flex-end;
+    body .ui-calendar .ui-button.ui-button-icon-only {
+        margin-left: 5px;
+        color: #033270;
+        background-color: white;
+        padding-top: 10px;
+        border-color: white;
+
+    }
+
+    body .ui-calendar .ui-button.ui-button-icon-only .ui-icon-calendar {
+        font-size: x-large;
+    }
+
+    body .ui-inputgroup-addon {
         display: flex;
-        right: 0;
-        bottom: 0;
+        justify-content: flex-end;
+        margin-bottom: -39px;
+        margin-right: 37px;
+        background-color: #f5f5f5;
+        padding-top: 9px;
+        padding-bottom: 12px;
+        border-radius: 8px;
+        padding: 10px;
+        font-family: sans-serif;
+    }
+
+    .amountC .ui-inputnumber .ui-inputfield {
+        flex: 1;
+        background-color: #9dcee2;
+    }
+
+    body .ui-inputfield:nth-of-type(2) {
+        background-color: #1368aa;
+    }
+
+    form:input2_input {
+        background-color: #1368aa;
+    }
+
+    /*body .ui-datatable .ui-datatable-data > tr {*/
+    /*    background-color: #1368aa;*/
+    /*}*/
+
+
+    body .third-input .ui-inputfield {
+        background-color: #90cee7;
+        text-align: right;
+        width: 165px;
+    }
+
+    /*body .ui-datatable .ui-datatable-data > tr > td{*/
+    /*    padding: 1px;*/
+    /*}*/
+
+    body .ui-inputgroup-addon {
+
+    }
+
+    body .ui-datatable .ui-datatable-data > tr > td {
+        padding: 0;
+    }
+
+    body .ui-datatable thead th {
+        padding: 4px;
+    }
+
+    body .ui-splitbutton .ui-button:first-child {
+        background-color: #1368aa;
+        border-color: #1368aa;
+    }
+
+    body .ui-splitbutton .ui-button.ui-splitbutton-menubutton {
+        background-color: #1368aa;
+        border-color: #1368aa;
+
+    }
+
+    body .ui-datatable .ui-datatable-data > tr > td:nth-child(9) {
+        background-color: #1368aa;
+        border-color: #1368aa;
+        width: 30px;
+    }
+
+    body .ui-radiobutton .ui-radiobutton-box.ui-state-active .ui-icon-bullet {
+        background-color: orange;
+    }
+
+    body .ui-radiobutton .ui-radiobutton-box {
+        border-color: black;
+
+    }
+
+    body .ui-fieldset .ui-fieldset-legend {
+        background-color: white;
+        border-color: white;
     }
 </style>
+
 
 <h:body>
     <h2 class="maintainProducts">Maintain Products</h2>
@@ -27,8 +118,12 @@
 
     <h:form id="form">
         <p:growl id="msgs" showDetail="true"/>
+
+
         <div class="card">
+            <p:messages id="msgs2"/>
             <h:panelGrid columns="2" cellpadding="10">
+
                 <p:outputLabel for="productId" value="Product ID"/>
                 <p:inputText id="productId" value="#{crud.selectedProduct.productId}" required="true"/>
 
@@ -36,11 +131,11 @@
                 <p:inputText id="productName" value="#{crud.selectedProduct.productName}" required="true"/>
 
 
-                <p:outputLabel for="input2" value="Amount"/>
-                <p:inputNumber styleClass="amountC" id="input2" value="#{crud.selectedProduct.productAmount}"
-                               symbol=" JOD"
-                               symbolPosition="s" decimalSeparator="," thousandSeparator=".">
-                    <span class="jodSpan">JOD</span>
+                <p:outputLabel for="input3" value="Amount"/>
+
+                <p:inputNumber styleClass="third-input" id="input3" value="#{crud.selectedProduct.productAmount}"
+                               showIcon="true">
+                    <div class="ui-inputgroup-addon">JOD</div>
                 </p:inputNumber>
 
 
@@ -71,16 +166,15 @@
                     <f:selectItem itemLabel="Old" itemValue="Old"/>
                 </p:selectOneRadio>
             </h:panelGrid>
+            <h:panelGrid columns="3" cellpadding="7">
+                <p:fieldset legend="Description">
 
-            <h:panelGrid columns="1">
-                <span class="ui-float-label">
-                <p:outputLabel value="Description"/>
-                <p:panel>
-                    <p:outputLabel for="productDescription" value="Product description"/>
-                    <p:inputTextarea id="productDescription" value="#{crud.selectedProduct.productDescription}" rows="5"
-                                     style="width: 100%; margin-top: 5px; resize: none;" autoResize="true"/>
-                </p:panel>
-                </span>
+                    <p:inputTextarea id="productDescription" value="#{crud.selectedProduct.productDescription}"
+                                     autoResize="true" rows="5"
+                                     style="width: 290px;"
+                                     placeholder="product description"/>
+
+                </p:fieldset>
             </h:panelGrid>
             <div class="rightButton">
                 <p:commandButton value="Add Product" styleClass="mr-2" icon="pi pi-plus" iconPos="right"
@@ -100,6 +194,7 @@
                             <p:commandButton value="Clear filter" process="@this"
                                              style="background-color: white; border-color: #1368aa; border-radius: 7px; color: #1368aa"
                                              icon="pi pi-filter-slash" iconPos="right"
+                                             action="#{crud.deleteAllProducts()}"
                             />
 
 
@@ -113,7 +208,7 @@
 
                 <p:column headerText="Amount" sortBy="#{productVar.productAmount}">
                     <h:outputText value="#{productVar.productAmount}">
-                        <f:convertNumber currencySymbol=" JOD" type="currency"/>
+                        <f:convertNumber currencySymbol=" JOD     " type="currency"/>
                     </h:outputText>
 
                 </p:column>
@@ -137,8 +232,8 @@
                     <h:outputText value="#{productVar.quantity}"/>
                 </p:column>
 
-                <p:column headerText="Date" sortBy="#{productVar.productDate}">
-                    <h:outputText value="#{productVar.productDate}"/>
+                <p:column headerText="Date" sortBy="#{productVar.date}">
+                    <h:outputText value="#{productVar.date}"/>
                 </p:column>
 
                 <p:column style="text-align: center">
@@ -160,11 +255,13 @@
 
 
                         <p:menuitem value="View" icon="pi pi-eye"
-                                    process="@this"
-                                    update=":dialogs:view-product-content"
-                                    oncomplete="PF('viewProductDialog').show()">
-                            <f:setPropertyActionListener value="#{productVar}" target="#{crud.selectedProduct}"/>
+                                    outcome="productView.xhtml">
+                            <f:param name="productId" value="#{productVar.productId}"/>
+                            <f:param name="productName" value="#{productVar.productName}"/>
+                            <f:param name="productAmount" value="#{productVar.productAmount}"/>
+                            <f:param name="productDate" value="#{productVar.date}"/>
                         </p:menuitem>
+
 
                     </p:splitButton>
                 </p:column>
@@ -245,57 +342,57 @@
             </f:facet>
         </p:dialog>
 
-        <p:dialog header="View Product" showEffect="fade" modal="true" widgetVar="viewProductDialog"
-                  responsive="true">
-            <h:panelGrid columns="3" cellpadding="7">
-                <p:outputPanel id="view-product-content" class="ui-fluid">
-                    <p:outputPanel rendered="#{not empty crud.selectedProduct}">
-                        <div class="field">
-                            <p:outputLabel for="viewName">Name</p:outputLabel>
-                            <p:inputText id="viewName" value="#{crud.selectedProduct.productName}" readonly="true"/>
-                        </div>
-                        <br/>
+        <!--        <p:dialog header="View Product" showEffect="fade" modal="true" widgetVar="viewProductDialog"-->
+        <!--                  responsive="true">-->
+        <!--            <h:panelGrid columns="3" cellpadding="7">-->
+        <!--                <p:outputPanel id="view-product-content" class="ui-fluid">-->
+        <!--                    <p:outputPanel rendered="#{not empty crud.selectedProduct}">-->
+        <!--                        <div class="field">-->
+        <!--                            <p:outputLabel for="viewName">Name</p:outputLabel>-->
+        <!--                            <p:inputText id="viewName" value="#{crud.selectedProduct.productName}" readonly="true"/>-->
+        <!--                        </div>-->
+        <!--                        <br/>-->
 
-                        <div class="field">
-                            <p:outputLabel for="viewId">ID</p:outputLabel>
-                            <p:inputTextarea id="viewId" value="#{crud.selectedProduct.productId}" readonly="true"/>
-                        </div>
-                        <br/>
+        <!--                        <div class="field">-->
+        <!--                            <p:outputLabel for="viewId">ID</p:outputLabel>-->
+        <!--                            <p:inputTextarea id="viewId" value="#{crud.selectedProduct.productId}" readonly="true"/>-->
+        <!--                        </div>-->
+        <!--                        <br/>-->
 
-                        <div class="field">
-                            <p:outputLabel for="viewType">Type</p:outputLabel>
-                            <p:inputText id="viewType" value="#{crud.selectedProduct.type}" readonly="true"/>
-                        </div>
-                        <br/>
+        <!--                        <div class="field">-->
+        <!--                            <p:outputLabel for="viewType">Type</p:outputLabel>-->
+        <!--                            <p:inputText id="viewType" value="#{crud.selectedProduct.type}" readonly="true"/>-->
+        <!--                        </div>-->
+        <!--                        <br/>-->
 
-                        <div class="field">
-                            <p:outputLabel for="viewDate">Date</p:outputLabel>
-                            <p:inputText id="viewDate" value="#{crud.selectedProduct.productDate}" readonly="true"/>
-                        </div>
-                        <br/>
+        <!--                        <div class="field">-->
+        <!--                            <p:outputLabel for="viewDate">Date</p:outputLabel>-->
+        <!--                            <p:inputText id="viewDate" value="#{crud.selectedProduct.productDate}" readonly="true"/>-->
+        <!--                        </div>-->
+        <!--                        <br/>-->
 
-                        <div class="field">
-                            <p:outputLabel for="viewAmount">Amount</p:outputLabel>
-                            <p:inputText id="viewAmount" value="#{crud.selectedProduct.productAmount}" readonly="true"/>
-                        </div>
-                        <br/>
+        <!--                        <div class="field">-->
+        <!--                            <p:outputLabel for="viewAmount">Amount</p:outputLabel>-->
+        <!--                            <p:inputText id="viewAmount" value="#{crud.selectedProduct.productAmount}" readonly="true"/>-->
+        <!--                        </div>-->
+        <!--                        <br/>-->
 
-                        <div class="field">
-                            <p:outputLabel for="viewDescription">Description</p:outputLabel>
-                            <p:inputTextarea id="viewDescription" value="#{crud.selectedProduct.productDescription}"
-                                             readonly="true" rows="5"
-                                             style="width: 100%; margin-top: 5px; resize: none;" autoResize="true"/>
-                        </div>
-                    </p:outputPanel>
-                </p:outputPanel>
+        <!--                        <div class="field">-->
+        <!--                            <p:outputLabel for="viewDescription">Description</p:outputLabel>-->
+        <!--                            <p:inputTextarea id="viewDescription" value="#{crud.selectedProduct.productDescription}"-->
+        <!--                                             readonly="true" rows="5"-->
+        <!--                                             style="width: 100%; margin-top: 5px; resize: none;" autoResize="true"/>-->
+        <!--                        </div>-->
+        <!--                    </p:outputPanel>-->
+        <!--                </p:outputPanel>-->
 
-            </h:panelGrid>
+        <!--            </h:panelGrid>-->
 
-            <f:facet name="footer">
-                <p:commandButton value="Close" icon="pi pi-times" onclick="PF('viewProductDialog').hide()"
-                                 class="ui-button-secondary" type="button"/>
-            </f:facet>
-        </p:dialog>
+        <!--            <f:facet name="footer">-->
+        <!--                <p:commandButton value="Close" icon="pi pi-times" onclick="PF('viewProductDialog').hide()"-->
+        <!--                                 class="ui-button-secondary" type="button"/>-->
+        <!--            </f:facet>-->
+        <!--        </p:dialog>-->
     </h:form>
 
 </h:body>
